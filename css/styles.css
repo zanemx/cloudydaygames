@@ -1,0 +1,100 @@
+body{
+	background-image:url(http://part12studios.com/wp-content/themes/swatch/images/bg-body-tile.png);
+	/*background: url(../assets/carbon_fibre.png);*/
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color:#333333;
+}
+header{
+	margin-top: 20px;
+	/*background:ghostwhite;*/
+	background:rgba(255,255,255,1);
+	border-radius: 10px;
+}
+header img{
+	margin:10px;
+}
+header div p{
+	text-transform: uppercase;
+	text-align: center;
+	line-height: 135px;
+	font-size:30px;
+	font-weight: bold;
+	float:left;
+	margin-right:20px;
+	text-shadow:2px 2px 4px #000;
+}
+header div p:first-letter{
+	color:#ff6633;
+}
+
+.previewTile{
+	height:134px;
+	max-height: 134px;
+	cursor:pointer;
+	/*border:2px solid rgba(0,0,0,0.4);*/
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-bottom: 10px;
+	position: relative;
+}
+.previewTile > img{
+	max-height: 134px;
+	max-width:134px;
+}
+.previewTile p{
+	color:#ff6633;
+	margin-left:0px;
+	/*letter-spacing: -2px;*/
+	padding:4px;
+	bottom:0px;
+	position: absolute;
+	background:rgba(0,0,0,0.8);
+	width:126px;
+	/*border-radius: -30px 10px 0px 0px;*/
+}
+
+.tileContainer{
+	background:rgba(0,0,0,0.6);
+	padding:20px 0px 10px 0px;
+	/*padding:20px;*/
+	border-radius: 10px;
+	/*border:2px solid rgba(255,255,255,0.4);*/
+}
+
+.gameContainer{
+	display: none;
+	text-align: center;
+}
+
+.backButton{
+	color:#ff6633;
+	text-align: right;
+	text-transform: uppercase;
+	text-align: center;
+	/*line-height: 135px;*/
+	font-size: 25px;
+	font-weight: bold;
+	float:left;
+	margin-right:20px;
+	/*margin-left:185px;*/
+	text-shadow:2px 2px 4px #000;
+	cursor:pointer;
+	display: none;
+}
+
+/*ADS*/
+.topBannerAd{
+	margin-top:20px;
+	margin-bottom: 20px
+}
+
+.sideBannerTall{
+	/*background:red;*/
+	height:100%;
+	margin-top:20px;
+}
+
+.bottomBannerAd{
+	/*margin-left:185px;*/
+	margin-top:20px;
+}
