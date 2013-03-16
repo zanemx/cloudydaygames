@@ -92,10 +92,18 @@
 			}
 		},
 		{
+			"file": "ror.xml",
+			"settings":
+			{
+				"buffer_size": 1656,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 2584,
+				"buffer_size": 2666,
 				"line_ending": "Windows"
 			}
 		},
@@ -352,7 +360,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -367,8 +375,8 @@
 						"selection":
 						[
 							[
-								588,
-								588
+								867,
+								867
 							]
 						],
 						"settings":
@@ -377,7 +385,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 152.0,
+						"translation.y": 422.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -404,25 +412,54 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 648.0,
+						"translation.y": 216.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "index.html",
+					"file": "ror.xml",
 					"settings":
 					{
-						"buffer_size": 2584,
+						"buffer_size": 1656,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2114,
-								2118
+								1281,
+								1281
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 2666,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								750,
+								750
 							]
 						],
 						"settings":
@@ -431,13 +468,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 324.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "js/games.js",
 					"settings":
 					{
@@ -464,7 +501,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "js/app.js",
 					"settings":
 					{
@@ -475,8 +512,8 @@
 						"selection":
 						[
 							[
-								519,
-								519
+								966,
+								966
 							]
 						],
 						"settings":
@@ -491,7 +528,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "/C/Python27/Scripts/scrape.py",
 					"settings":
 					{
@@ -508,7 +545,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 216.0,

@@ -7,29 +7,253 @@
 		<meta name="description" content="Make Friends, Chat, and Play great Games on your mobile phone or tablet. Tons of FREE games, millions of people online.">
 		<!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
 		<!-- <meta name="viewport" content="width=device-width, initial-scale=0.1, minimum-scale=0.1, maximum-scale=1"> -->
+
+		<link rel="alternate" type="application/rss+xml" title="ROR" href="ror.xml" />
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/unsemantic-grid-responsive-tablet.css">
 		<link rel="stylesheet" href="css/styles.css">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-    	<script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js"></script>
-    	<script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" ></script>
 
     	<script src="js/games.js"></script>
     	<script src="js/app.js"></script>
     	<script src="js/bootloader.js"></script>
+    	<script src="js/profilebar.js"></script>
+    	<script src="js/g+.js"></script>
+
+    	<!-- google+ -->
+    	<script type="text/javascript">
+			(function() {
+			    var po = document.createElement('script');
+			    po.type = 'text/javascript'; po.async = true;
+			    po.src = 'https://plus.google.com/js/client:plusone.js';
+			    var s = document.getElementsByTagName('script')[0];
+			    s.parentNode.insertBefore(po, s);
+			})();
+  		</script>
 	</head>
 
 	<body>
+
+		<!-- PROFILE BAR -->
+		<header>
+			<div class='innerHeader'>
+				
+				<!-- logo -->
+				<div id="logo">
+					<img src="assets/icons/cloud32.png" alt="">
+				</div>
+
+				<!-- Title -->
+				<div id="title">
+					<p>Cloudy&nbsp;</p><p>Day&nbsp;</p><p>Games</p>
+				</div>
+
+
+
+				<!-- login with google+ -->
+				<div class="googleLoginButton">
+					<div id="gConnect">
+					    <button class="g-signin"
+					        data-scope="https://www.googleapis.com/auth/plus.login"
+					        data-requestvisibleactions="http://schemas.google.com/AddActivity"
+					        data-clientId="118674517729-990to7761gs5199p0rq07eh2vvvbketk.apps.googleusercontent.com"
+					        data-callback="onSignInCallback"
+					        data-theme="dark"
+					        data-cookiepolicy="single_host_origin">
+					    </button>
+					 </div>
+				 </div>
+
+				 <div class="profileData">
+				 	<div class="profileImage">
+				 		<img src="assets/icons/defaultProfile54.png" alt="">
+				 	</div>
+
+				 	<div class="nameProfileContainer">
+				 		<div class="profileName">Strange User...</div>
+						<div class="profileRep">Site Rep: Login to earn.</div>
+				 	</div>
+				</div>
+
+			</div>
+		</header>
+
+
+		
+		
+		<!-- <div id="authOps" style="display:none">
+		    <h2>User is now signed in to the app using Google+</h2>
+		    <p>If the user chooses to disconnect, the app must delete all stored
+		    information retrieved from Google for the given user.</p>
+		    <button id="disconnect" >Disconnect your Google account from this app</button>
+
+		    <h2>User's profile information</h2>
+		    <div id="profile"></div>
+
+		    <h2>User's friends that are visible to this app</h2>
+		    <div id="visiblePeople"></div>
+
+		    <h2>Authentication Logs</h2>
+		    <pre id="authResult"></pre>
+		 </div> -->
+
+
+		<script type="text/javascript">
+var helper = (function() {
+  var BASE_API_PATH = 'plus/v1/';
+
+  return {
+    /**
+     * Hides the sign in button and starts the post-authorization operations.
+     *
+     * @param {Object} authResult An Object which contains the access token and
+     *   other authentication information.
+     */
+    onSignInCallback: function(authResult) {
+	      gapi.client.load('plus','v1', function(){
+	        $('#authResult').html('Auth Result:<br/>');
+	        for (var field in authResult) {
+	          $('#authResult').append(' ' + field + ': ' +
+	              authResult[field] + '<br/>');
+	        }
+	        if (authResult['access_token']) {
+	          $('#authOps').show('slow');
+	          $('#gConnect').hide();
+	          helper.profile();
+	          helper.people();
+	          cdg.ProfileBar.init();
+	        } else if (authResult['error']) {
+	          // There was an error, which means the user is not signed in.
+	          // As an example, you can handle by writing to the console:
+	          console.log('There was an error: ' + authResult['error']);
+	          $('#authResult').append('Logged out');
+	          $('#authOps').hide('slow');
+	          $('#gConnect').show();
+	        }
+	        console.log('authResult', authResult);
+
+	       	//init profile bar
+	       	
+	      });
+	    },
+
+	    /**
+	     * Calls the OAuth2 endpoint to disconnect the app for the user.
+	     */
+	    disconnect: function() {
+	      // Revoke the access token.
+	      $.ajax({
+	        type: 'GET',
+	        url: 'https://accounts.google.com/o/oauth2/revoke?token=' +
+	            gapi.auth.getToken().access_token,
+	        async: false,
+	        contentType: 'application/json',
+	        dataType: 'jsonp',
+	        success: function(result) {
+	          console.log('revoke response: ' + result);
+	          $('#authOps').hide();
+	          $('#profile').empty();
+	          $('#visiblePeople').empty();
+	          $('#authResult').empty();
+	          $('#gConnect').show();
+	        },
+	        error: function(e) {
+	          console.log(e);
+	        }
+	      });
+	    },
+
+	    /**
+	     * Gets and renders the list of people visible to this app.
+	     */
+	    people: function() {
+	      var request = gapi.client.plus.people.list({
+	        'userId': 'me',
+	        'collection': 'visible'
+	      });
+	      request.execute(function(people) {
+	        $('#visiblePeople').empty();
+	        $('#visiblePeople').append('Number of people visible to this app: ' +
+	            people.totalItems + '<br/>');
+	        for (var personIndex in people.items) {
+	          person = people.items[personIndex];
+	          $('#visiblePeople').append('<img src="' + person.image.url + '">');
+	        }
+	      });
+	    },
+
+	    /**
+	     * Gets and renders the currently signed in user's profile data.
+	     */
+	    profile: function(){
+	      var request = gapi.client.plus.people.get( {'userId' : 'me'} );
+	      request.execute( function(profile) {
+	      	cdg.ProfileBar.updateMe(profile);
+	        $('#profile').empty();
+	        if (profile.error) {
+	          $('#profile').append(profile.error);
+	          return;
+	        }
+	        $('#profile').append(
+	            $('<p><img src=\"' + profile.image.url + '\"></p>'));
+	        $('#profile').append(
+	            $('<p>Hello ' + profile.displayName + '!<br />Tagline: ' +
+	            profile.tagline + '<br />About: ' + profile.aboutMe + '</p>'));
+	        if (profile.cover && profile.coverPhoto) {
+	          $('#profile').append(
+	              $('<p><img src=\"' + profile.cover.coverPhoto.url + '\"></p>'));
+	        }
+	      });
+	    }
+	  };
+	})();
+	/**
+	 * jQuery initialization
+	 */
+	$(document).ready(function() {
+	  $('#disconnect').click(helper.disconnect);
+	  if ($('[data-clientid="118674517729-990to7761gs5199p0rq07eh2vvvbketk.apps.googleusercontent.com"]').length > 0) {
+	    // alert('This sample requires your OAuth credentials (client ID) ' +
+	    //     'from the Google APIs console:\n' +
+	    //     '    https://code.google.com/apis/console/#:access\n\n' +
+	    //     'Find and replace YOUR_CLIENT_ID with your client ID.'
+	    // );
+	  }
+	});
+
+	/**
+	 * Calls the helper method that handles the authentication flow.
+	 *
+	 * @param {Object} authResult An Object which contains the access token and
+	 *   other authentication information.
+	 */
+	function onSignInCallback(authResult) {
+	  helper.onSignInCallback(authResult);
+	}
+	</script>
+
+	<!-- Place this tag after the last +1 button tag. -->
+	<script type="text/javascript">
+	  (function() {
+	    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	    po.src = 'https://apis.google.com/js/plusone.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	  })();
+	</script>
+
+	
 		<div class="grid-container">
-			<header class="grid-100 grid-parent">
+
+
+			<!-- <header class="grid-100 grid-parent">
 				<div class="grid-40 logo">
 					<img src="http://part12studios.com/wp-content/uploads/2012/01/weblogo.png" alt="">
 				</div>
 				<div class="grid-60">
 					<p>cloudy</p><p>day</p><p>games</p>
 				</div>
-			</header>
+			</header> -->
 
 			<div class="grid-100 topBannerAd">
 				<script type="text/javascript"><!--
@@ -44,9 +268,10 @@
 					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 				</script>
 			</div>
-
+			
 			<br>
-
+			<!-- Place this tag where you want the +1 button to render. -->
+			<div class="g-plusone"></div>
 			<div class="grid-100 gird-parent tileContainer"></div>
 			<div class="grid-100 grid-parent gameContainer"></div>
 			<div class="grid-100 backButton">

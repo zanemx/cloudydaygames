@@ -1,4 +1,6 @@
 AddType text/html py
 AddHandler cgi-script .py
 
+# Use PHP 5.3
+AddType application/x-httpd-php53 .php
 
